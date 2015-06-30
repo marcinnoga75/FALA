@@ -15,8 +15,8 @@ void setup()
      cc1101.writeReg(CC1101_FREQ2,0x10);
      cc1101.writeReg(CC1101_FREQ1,0xB1);          //  434MHz przy kwarcu 26MHz
      cc1101.writeReg(CC1101_FREQ0,0x3B);          //  0x10 | 0xB1 | 0x3B
-     cc1101.writeReg(CC1101_DEVIATN,0x24);        //  0x24 - Deviation 1.587 Khz
-   
+     cc1101.writeReg(CC1101_DEVIATN,0x24);        //  0x24 - Deviation 1.587 Khz | 0x11 - 3.57kHz | 0x15 -  5.16kHz
+     
      cc1101.setTxState();
 }
 void loop()
