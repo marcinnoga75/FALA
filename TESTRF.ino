@@ -11,7 +11,7 @@ char paTable10dBm[] =  {0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};   //  1
      
 void setup()
 {
-   cc1101.init();                               // initialize the RF Chip
+   cc1101.init();                                 // initialize the RF Chip
      cc1101.writeReg(CC1101_FREQ2,0x10);
      cc1101.writeReg(CC1101_FREQ1,0xB1);          //  434MHz przy kwarcu 26MHz
      cc1101.writeReg(CC1101_FREQ0,0x3B);          //  0x10 | 0xB1 | 0x3B
