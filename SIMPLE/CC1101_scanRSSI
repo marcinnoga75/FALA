@@ -2,7 +2,7 @@
 #include "cc1101.h"
 
 CC1101 cc1101;                     // The connection to the hardware chip CC1101 the RF Chip
-
+                                   // SQ5RIQ | www.marcinnoga75.blogspot.com |
 void setup()
 {
   Serial.begin(115200);
