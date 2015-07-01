@@ -1,0 +1,30 @@
+#include "EEPROM.h"
+#include "cc1101.h"
+
+CC1101 cc1101;                     // The connection to the hardware chip CC1101 the RF Chip
+
+void setup()
+{
+  Serial.begin(9600);
+  Serial.println("start");
+                                   
+  cc1101.init();                                     // initialize the RF Chip
+  cc1101.setCarrierFreq(CFREQ_433);
+  cc1101.setRxState();                               // Enable wireless reception interrupt
+  
+  int agcctrl2 = (cc1101.readReg(CC1101_AGCCTRL2, CC1101_STATUS_REGISTER));  
+  Serial.println(agcctrl2,BIN);
+  Serial.println("aabbbcc");;
+  Serial.println("--000-- : Maximum possible LNA + LNA 2 gain");
+  Serial.println("--001-- : Approx. 2.6 dB below maximum possible gain");
+  Serial.println("--010-- : Approx. 6.1 dB below maximum possible gain");
+  Serial.println("--011-- : Approx. 7.4 dB below maximum possible gain");
+  Serial.println("--100-- : Approx. 9.2 dB below maximum possible gain");
+  Serial.println("--101-- : Approx. 11.5 dB below maximum possible gain");
+  Serial.println("--110-- : Approx. 14.6 dB below maximum possible gain");
+  Serial.println("--111-- : Approx. 17.1 dB below maximum possible gain");
+}
+
+void loop()
+{ 
+}
