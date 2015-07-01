@@ -1,0 +1,52 @@
+#include "EEPROM.h"
+#include "cc1101.h"
+
+CC1101 cc1101;                     // The connection to the hardware chip CC1101 the RF Chip
+
+void setup()
+{
+  Serial.begin(115200);
+  Serial.println("start");
+                                   
+  cc1101.init();                                     // initialize the RF Chip
+  cc1101.setCarrierFreq(CFREQ_433);
+  
+  cc1101.writeReg(CC1101_FREQ2,0x10);
+  cc1101.writeReg(CC1101_FREQ1,0xB1);                //  434MHz przy kwarcu 26MHz
+  cc1101.writeReg(CC1101_FREQ0,0x3B);                //  0x10 | 0xB1 | 0x3B
+  cc1101.setRxState();                               // Enable wireless reception interrupt
+                                                    
+  Serial.println("SCAN 5s");                         // 430MHz 0x10|0x89|0xD8                                                 
+  scanRSSI();                                        // 440MHz 0x10|0xEC|0x4E
+}
+
+void scanRSSI() {     // RSSI poprawione w/g ti.com swra114d.pdf -> 3 RSSI Register Interpretation
+  byte rssi_dec = 0;
+  int rssi_dBm = 0;
+  unsigned int rssi_offset = 74;
+  int memSize = 500;                                 // max. ~700 (*2) = Atmega328 2KB SRAM 
+  int dataRSSI[memSize];
+
+  for (int x=0; x<memSize; x++) 
+  {  
+     rssi_dec = (cc1101.readReg(CC1101_RSSI, CC1101_STATUS_REGISTER));
+     if (rssi_dec >= 128) {
+         rssi_dBm = ((rssi_dec - 256) / 2)  - rssi_offset;
+     }
+      else {
+      rssi_dBm = (rssi_dec / 2)  - rssi_offset;
+     }
+  dataRSSI[x] = rssi_dBm;  
+  delay(10); 
+  }
+  for (int y=0; y<memSize; y++) { 
+    for (int x=-120; x<dataRSSI[y]; x++) {
+    Serial.print("*");
+    }
+  Serial.println(" ");
+                              }
+}
+
+void loop() 
+{
+}
